@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="text-center">Change Email</h3>
+          </div>
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-3 p-3 border rounded bg-light">
+              <i class="fas fa-envelope me-2"></i>
+              <span class="fw-bold">Current Email:</span>
+              <span class="ms-2" id="current-mail">{{ user.email }}</span>
+            </div>
+            <form id="change_email_form" method="POST">
+              {% csrf_token %}
+              <div class="form-group mb-3">
+                <label for="new_email">New Email:</label>
+                <input type="email" class="form-control" id="new_email" name="new_email" autocomplete="off" required />
+              </div>
+              <div class="form-group mb-3">
+                <label for="new_email2">Confirm New Email:</label>
+                <input type="email" class="form-control" id="new_email2" name="new_email2" autocomplete="off" required />
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">Change Email</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="text-center">Change Password</h3>
+          </div>
+          <div class="card-body">
+            <form id="change_password_form" method="POST">
+              {% csrf_token %}
+              <div class="form-group mb-3">
+                <label for="old_password">Current Password:</label>
+                <input type="password" class="form-control" id="old_password" name="old_password" required />
+              </div>
+              <div class="form-group mb-3">
+                <label for="new_password1">New Password:</label>
+                <input type="password" class="form-control" id="new_password1" name="new_password1" required />
+              </div>
+              <div class="form-group mb-3">
+                <label for="new_password2">Confirm New Password:</label>
+                <input type="password" class="form-control" id="new_password2" name="new_password2" required />
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">Change Password</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% load static %}
+  <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

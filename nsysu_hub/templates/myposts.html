@@ -1,0 +1,53 @@
+{% extends 'base.html' %} {% block title %}
+
+{% endblock %}
+{% block content %}
+  <div class="container text-center mt-5 w-75">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} shadow-sm mx-auto w-100 text-center mb-4 fade show">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+    <h2 class="mb-4 text-start">Post Something</h2>
+    <form action="{% url 'myposts' %}" method="post" class="mb-5">
+      {% csrf_token %}
+      <div class="form-group position-relative">
+        <textarea name="content" class="form-control mx-auto shadow-sm" rows="3" placeholder="What's on your mind?" required style="border-radius: 15px; resize: none;"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary mt-3 px-4 shadow-sm" style="border-radius: 20px;"><i class="fas fa-paper-plane me-2"></i>Post</button>
+    </form>
+  </div>
+
+  <div class="container mt-5 w-75">
+    <h2 class="mb-4">My Posts</h2>
+    {% if my_posts %}
+      <div class="row">
+        {% for post in my_posts %}
+          <div class="col-md-4 mb-3 w-100">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">{{ post.user.username }}</h5>
+                <p class="card-text">{{ post.content|safe }}</p>
+                <div class="d-flex justify-content-between">
+                  <small class="text-muted">
+                    {% if post in liked_posts %}
+                      <button class="btn btn-sm btn-danger like-btn" data-post-id="{{ post.id }}" onclick="toggleLike({{ post.id }})"><i class="fas fa-heart"></i> {{ post.likes }}</button>
+                    {% else %}
+                      <button class="btn btn-sm btn-outline-danger like-btn" data-post-id="{{ post.id }}" onclick="toggleLike({{ post.id }})"><i class="fas fa-heart"></i> {{ post.likes }}</button>
+                    {% endif %}
+                    <button class="btn btn-sm btn-outline-secondary comment-btn" data-post-id="{{ post.id }}" onclick="showComments({{ post.id }})"><i class="fas fa-comment"></i> {{ post.comment_count }}</button>
+                  </small>
+                  <small class="text-muted">{{ post.created_at|date:'M d, Y' }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>No posts available.</p>
+    {% endif %}
+  </div>
+  {% load static %}
+  <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

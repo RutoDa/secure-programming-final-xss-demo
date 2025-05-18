@@ -1,0 +1,51 @@
+{% extends 'base.html' %} {% block title %}
+
+{% endblock %}
+{% block content %}
+  <div class="text-center mt-5">
+    <h1 class="display-1 fw-bold">NSYSU HUB</h1>
+    <p class="lead">Your Campus Connection Platform</p>
+  </div>
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} shadow-sm mx-auto w-75 text-center mb-4 fade show">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+  <div class="container mt-5 w-75">
+    <h2 class="mb-4">All Posts</h2>
+    {% if all_posts %}
+      <div class="row">
+        {% for post in all_posts %}
+          <div class="col-md-4 mb-3 w-100">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">{{ post.user.username }}</h5>
+                <p class="card-text">{{ post.content|safe }}</p>
+                <div class="d-flex justify-content-between">
+                  <small class="text-muted">
+                    {% if user.is_authenticated %}
+                      {% if post in liked_posts %}
+                        <button class="btn btn-sm btn-danger like-btn" data-post-id="{{ post.id }}" onclick="toggleLike({{ post.id }})"><i class="fas fa-heart"></i> {{ post.likes }}</button>
+                      {% else %}
+                        <button class="btn btn-sm btn-outline-danger like-btn" data-post-id="{{ post.id }}" onclick="toggleLike({{ post.id }})"><i class="fas fa-heart"></i> {{ post.likes }}</button>
+                      {% endif %}
+                      <button class="btn btn-sm btn-outline-secondary comment-btn" data-post-id="{{ post.id }}" onclick="showComments({{ post.id }})"><i class="fas fa-comment"></i> {{ post.comment_count }}</button>
+                    {% else %}
+                      <button class="btn btn-sm btn-outline-danger" onclick="loginPrompt()"><i class="fas fa-heart"></i> {{ post.likes }}</button>
+                      <button class="btn btn-sm btn-outline-secondary" onclick="loginPrompt()"><i class="fas fa-comment"></i> {{ post.comment_count }}</button>
+                    {% endif %}
+                  </small>
+                  <small class="text-muted">{{ post.created_at|date:'M d, Y' }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>No posts available.</p>
+    {% endif %}
+  </div>
+  {% load static %}
+  <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}
