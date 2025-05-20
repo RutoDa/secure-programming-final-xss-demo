@@ -155,20 +155,6 @@ function submitComment(postId, commentText) {
         });
 }
 
-function welcomeUser() {
-    const params = new URLSearchParams(window.location.search);
-    const name = params.get('name');
-    if (!name) return;
-    Swal.fire({
-        title: 'Welcome back !',
-        html: `Welcome back ${name}! <br>Feel free to explore and interact with the posts.`,
-        icon: 'success',
-        confirmButtonText: 'Continue',
-        confirmButtonColor: '#3085d6'
-    });
-}
-welcomeUser()
-
 
 function checkPassword() {
     const old_password = document.getElementById("old_password").value;
@@ -324,5 +310,20 @@ if (document.getElementById("change_email_form")) {
 }
 
 
+function welcomeUser() {
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get('name');
+    if (!name) return;
+    Swal.fire({
+        title: 'Welcome back !',
+        html: `Welcome back ${name}! <br>Feel free to explore and interact with the posts.`,
+        icon: 'success',
+        confirmButtonText: 'Continue',
+        confirmButtonColor: '#3085d6'
+    });
+}
 
+document.addEventListener('DOMContentLoaded', function () {
+    welcomeUser();
+});
 
